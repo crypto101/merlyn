@@ -31,7 +31,8 @@ class Step(item.Item):
         return cls(text=text, _validator=validator, validatorName=name)
 
 
-    def _getValidator(self):
+    @property
+    def validator(self):
         """
         Gets the validator for this step.
         """
@@ -43,5 +44,4 @@ class Step(item.Item):
         """
         Attempts to validate.
         """
-        validator = self._getValidator()
-        return validator(userStore, submission)
+        return self.validator(userStore, submission)

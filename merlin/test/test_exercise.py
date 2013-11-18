@@ -45,15 +45,15 @@ class FakeValidatorTests(unittest.SynchronousTestCase):
 
 
 class StepValidatorTests(unittest.SynchronousTestCase):
-    def test_getValidator(self):
+    def test_validator(self):
         """
-        The ``_getValidator`` method reproduces the validator. It also
-        caches the validator.
+        The `validator` attribute gets the validator for this step. It
+        also caches the validator.
         """
         step = exercise.Step(text=u"", validatorName=fakeValidator.name)
         self.assertRaises(AttributeError, lambda: step._validator)
 
-        self.assertIdentical(step._getValidator(), fakeValidator)
+        self.assertIdentical(step.validator, fakeValidator)
         self.assertIdentical(step._validator, fakeValidator)
 
 
