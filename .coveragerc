@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = merlin
+
+[report]
+exclude_lines =
+    pragma: no cover

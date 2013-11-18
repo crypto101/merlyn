@@ -1,0 +1,5 @@
+# Base requirements
+twisted
+epsilon
+pysqlite
+axiom
