@@ -31,7 +31,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
-    'repoze.sphinx.autointerface'
+    'sphinxcontrib.zopeext.autointerface'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

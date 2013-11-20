@@ -7,4 +7,4 @@ pudb
 
 # Documentation
 sphinx
-repoze.sphinx.autointerface
+sphinxcontrib-zopeext
