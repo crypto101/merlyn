@@ -4,3 +4,4 @@ txampext>=0.0.5
 epsilon
 pysqlite
 axiom
+maxims==0.0.2

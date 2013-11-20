@@ -1,8 +1,11 @@
+"""
+Basic exercise and step implementations.
+"""
 from axiom import attributes, item
+from merlin import interfaces as imerlin
 from twisted.protocols import amp
-from twisted.python import reflect
 from txampext.errors import Error
-from zope.interface import Attribute, implementer, Interface
+from zope.interface import implementer
 
 
 class UnknownStep(Error):
@@ -53,68 +56,9 @@ class Exercise(item.Item):
 
 
 
-class IStep(Interface):
-    """
-    A step in an excerise.
-    """
-    nextStep = Attribute(
-        """
-        The step following this one, or None if this is the last step.
-        """)
-
-
-
-class IRenderer(Interface):
-    """
-    Renders a step in an exercise.
-    """
-    def render(userStore):
-        """
-        Renders a step, using the context of a user store.
-        """
-
-
-
-class IValidator(Interface):
-    """
-    A validator for a step in an exercise.
-    """
-    def validate(userStore, submission):
-        """
-        Validates a submission using the context of a user store.
-        """
-
-
-
-@implementer(IStep)
+@implementer(imerlin.IStep)
 class Step(item.Item):
     """
     A single step in an exercise.
     """
-    text = attributes.text(allowNone=False)
     nextStep = attributes.reference()
-
-    validatorName = attributes.bytes(allowNone=False)
-    _validator = attributes.inmemory()
-
-    @classmethod
-    def createWithValidator(cls, text, validator):
-        """
-        Creates a new step with the given text and validator callable. The
-        step will not yet be stored.
-        """
-        name = reflect.fullyQualifiedName(validator)
-        return cls(text=text, _validator=validator, validatorName=name)
-
-
-    @property
-    def validator(self):
-        """
-        Gets the validator for this step.
-        """
-        validator = self._validator = reflect.namedAny(self.validatorName)
-        return validator
-
-
-    def validate(self, userStore, submission):
-        return self.validator(userStore, submission)

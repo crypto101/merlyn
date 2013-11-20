@@ -21,11 +21,11 @@ Usually, this is accomplished using Axiom powerups.
 Step interfaces
 ---------------
 
-.. autointerface:: merlin.exercise.IStep
+.. autointerface:: merlin.interfaces.IStep
                    :members:
 
-.. autointerface:: merlin.exercise.IRenderer
+.. autointerface:: merlin.interfaces.IRenderer
                    :members:
 
-.. autointerface:: merlin.exercise.IValidator
+.. autointerface:: merlin.interfaces.IValidator
                    :members:
