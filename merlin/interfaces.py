@@ -30,7 +30,7 @@ class IValidator(Interface):
     """
     A validator for a step in an exercise.
     """
-    def validate(userStore, submission):
+    def validate(submission, userStore):
         """
         Validates a submission using the context of a user store.
         """
