@@ -1,6 +1,31 @@
 from merlin import exercise
 from twisted.python import reflect
-from twisted.trial import unittest
+from twisted.trial.unittest import SynchronousTestCase
+from txampext.commandtests import CommandTestMixin
+
+
+class SubmissionTests(SynchronousTestCase, CommandTestMixin):
+    command = exercise.Submit
+
+    argumentObjects = {
+        b"step": 1,
+        b"submission": b"xyzzy"
+    }
+    argumentStrings = {
+        b"step": "1",
+        b"submission": b"xyzzy"
+    }
+
+    responseObjects = {}
+    responseStrings = {}
+
+    errors = dict([
+        exercise.UnknownStep.asAMP(),
+        exercise.WrongStep.asAMP(),
+        exercise.IncorrectSubmission.asAMP()
+    ])
+    fatalErrors = {}
+
 
 
 USER_STORE = object()
@@ -17,7 +42,7 @@ fakeValidator.name = reflect.fullyQualifiedName(fakeValidator)
 
 
 
-class FakeValidatorTests(unittest.SynchronousTestCase):
+class FakeValidatorTests(SynchronousTestCase):
     """
     Test cases for the fake validator.
     """
@@ -44,7 +69,7 @@ class FakeValidatorTests(unittest.SynchronousTestCase):
 
 
 
-class StepValidatorTests(unittest.SynchronousTestCase):
+class StepValidatorTests(SynchronousTestCase):
     def test_validator(self):
         """
         The `validator` attribute gets the validator for this step. It
@@ -70,7 +95,7 @@ class StepValidatorTests(unittest.SynchronousTestCase):
 
 
 
-class StepValidationTests(unittest.SynchronousTestCase):
+class StepValidationTests(SynchronousTestCase):
     """
     Steps can validate submissions.
     """

@@ -1,5 +1,6 @@
 # Base requirements
-twisted
+twisted>=12.3.0
+txampext>=0.0.5
 epsilon
 pysqlite
 axiom
