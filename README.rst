@@ -12,6 +12,9 @@ line in the repository root. This will create a virtualenv_ for each
 supported environment, install the necessary things in it, run the
 tests, and build the documentation.
 
+Speeding up builds
+------------------
+
 For a faster experience, it is recommended that you configure pip_ to
 use wheel_ by default, by placing the following in your
 ``~/.pip/pip.conf`` or equivalent::
