@@ -38,6 +38,18 @@ wheels, which are faster to install than regular packages.
 Release notes
 =============
 
+0.0.3 (WIP)
+-----------
+
+Features:
+
+- Basic documentation for steps and exercises
+
+Upgrades:
+
+- repoze.sphinx.autointerface -> sphinxcontrib-zopeext, which appears
+  to be a shinier, more updated version of the same thing
+
 0.0.2
 -----
 
