@@ -53,19 +53,24 @@ class Exercise(item.Item):
 
 
 
-class IStep(Interface):
+class IRenderer(Interface):
     """
-    A step in an exercise.
+    Renders a step in an exercise.
+    """
+    def render(userStore):
+        """
+        Renders a step, using the context of a user store.
+        """
+
+
+
+class IValidator(Interface):
+    """
+    A validator for a step in an exercise.
     """
     def validate(userStore, submission):
         """
         Validates a submission using the context of a user store.
-        """
-
-
-    def render(userStore):
-        """
-        Renders a step, using the context of a user store.
         """
 
 
@@ -100,7 +105,4 @@ class Step(item.Item):
 
 
     def validate(self, userStore, submission):
-        """
-        Attempts to validate.
-        """
         return self.validator(userStore, submission)
