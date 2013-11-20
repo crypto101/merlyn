@@ -2,6 +2,7 @@ from axiom import attributes, item
 from twisted.protocols import amp
 from twisted.python import reflect
 from txampext.errors import Error
+from zope.interface import implementer, Interface
 
 
 class UnknownStep(Error):
@@ -49,6 +50,23 @@ class Exercise(item.Item):
     """
     title = attributes.text(allowNone=False)
     firstStep = attributes.reference(allowNone=False)
+
+
+
+class IStep(Interface):
+    """
+    A step in an exercise.
+    """
+    def validate(userStore, submission):
+        """
+        Validates a submission using the context of a user store.
+        """
+
+
+    def render(userStore):
+        """
+        Renders a step, using the context of a user store.
+        """
 
 
 
