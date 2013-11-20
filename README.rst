@@ -12,9 +12,9 @@ Release notes
 
 Features:
 
- - Exercise and Step classes
- - Step validation draft
- - Step solution submission interface
+- Exercise and Step classes
+- Step validation draft
+- Step solution submission interface
 
 0.0.1
 -----
