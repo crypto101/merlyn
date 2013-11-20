@@ -2,6 +2,7 @@ from merlin import exercise
 from twisted.python import reflect
 from twisted.trial.unittest import SynchronousTestCase
 from txampext.commandtests import CommandTestMixin
+from zope.interface.verify import verifyObject
 
 
 class SubmissionTests(SynchronousTestCase, CommandTestMixin):
@@ -25,6 +26,16 @@ class SubmissionTests(SynchronousTestCase, CommandTestMixin):
         exercise.IncorrectSubmission.asAMP()
     ])
     fatalErrors = {}
+
+
+
+class StepTests(SynchronousTestCase):
+    def test_implements(self):
+        """
+        The Step item class implements the IStep interface.
+        """
+        step =  exercise.Step(text=u"", validatorName=b"")
+        verifyObject(exercise.IStep, step)
 
 
 

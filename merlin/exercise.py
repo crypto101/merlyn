@@ -2,7 +2,7 @@ from axiom import attributes, item
 from twisted.protocols import amp
 from twisted.python import reflect
 from txampext.errors import Error
-from zope.interface import implementer, Interface
+from zope.interface import Attribute, implementer, Interface
 
 
 class UnknownStep(Error):
@@ -53,6 +53,17 @@ class Exercise(item.Item):
 
 
 
+class IStep(Interface):
+    """
+    A step in an excerise.
+    """
+    nextStep = Attribute(
+        """
+        The step following this one, or None if this is the last step.
+        """)
+
+
+
 class IRenderer(Interface):
     """
     Renders a step in an exercise.
@@ -75,6 +86,7 @@ class IValidator(Interface):
 
 
 
+@implementer(IStep)
 class Step(item.Item):
     """
     A single step in an exercise.
