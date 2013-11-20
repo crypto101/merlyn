@@ -5,5 +5,6 @@ mock
 # Debugging niceties
 pudb
 
-# Documentation and doctests
+# Documentation
 sphinx
+repoze.sphinx.autointerface
