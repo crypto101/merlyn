@@ -27,10 +27,10 @@ use wheel_ by default, by placing the following in your
 After that, run ``pip wheel -r requirements*`` once. It will create
 wheels, which are faster to install than regular packages.
 
-.. _tox:: https://testrun.org/tox/
-.. _virtualenv:: https://pypi.python.org/pypi/virtualenv/
-.. _pip:: http://www.pip-installer.org/en/latest/
-.. _wheel:: http://wheel.readthedocs.org/en/latest/
+.. _tox: https://testrun.org/tox/
+.. _virtualenv: https://pypi.python.org/pypi/virtualenv/
+.. _pip: http://www.pip-installer.org/en/latest/
+.. _wheel: http://wheel.readthedocs.org/en/latest/
 
 Release notes
 =============
