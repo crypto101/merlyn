@@ -13,8 +13,10 @@ Steps are objects that optionally refer to a following step (unless
 they are the last step in an exercise). They also must be adaptable to
 two other interfaces:
 
-- IRenderer, for rendering a step to a user.
-- IValidator, for validating a submission by the user.
+- :py:class:`IRenderer<merlin.interfaces.IRenderer>`, for rendering a
+  step to a user.
+- :py:class:`IValidator<merlin.interfaces.IValidator>`, for validating
+  a submission by the user.
 
 Usually, this is accomplished using Axiom powerups.
 
