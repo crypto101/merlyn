@@ -35,11 +35,3 @@ class StepTests(SynchronousTestCase):
         """
         step =  exercise.Step(text=u"", validatorName=b"")
         verifyObject(imerlin.IStep, step)
-
-
-
-class IntegrationTest(SynchronousTestCase):
-    def test_multipleSteppedExercise(self):
-        """
-        An exercise consisting of multiple steps.
-        """
