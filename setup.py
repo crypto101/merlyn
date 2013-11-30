@@ -5,7 +5,7 @@ from setuptools.command.test import test as TestCommand
 packageName = "merlin"
 
 import re
-versionLine = open("{}/_version.py".format(packageName), "rt").read()
+versionLine = open("{0}/_version.py".format(packageName), "rt").read()
 match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", versionLine, re.M)
 versionString = match.group(1)
 
