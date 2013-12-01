@@ -23,7 +23,7 @@ setup(name=packageName,
       version=versionString,
       description='A server backend for interactive online exercises.',
       long_description=open("README.rst").read(),
-      url='https://github.com/lvh/' + packageName,
+      url='https://github.com/crypto101/' + packageName,
 
       author='Laurens Van Houtven',
       author_email='_@lvh.io',
