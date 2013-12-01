@@ -28,13 +28,17 @@ use wheel_ by default, by placing the following in your
   [wheel]
   wheel-dir = /tmp/wheelhouse
 
-After that, run ``pip wheel -r requirements*`` once. It will create
-wheels, which are faster to install than regular packages. You can
-make installations even faster by adding ``no-index = True`` to the
-``[install]`` section; that way, installations won't even hit PyPI,
-further reducing latency. Keep in mind that you will then no longer be
-able to use ``pip install`` to install anything, unless you've first
-made a wheel out of it.
+After that, build wheels out of the requirements by running the
+following command once::
+
+  pip wheel -r requirements.txt
+
+That will build wheels, which are faster to install than regular
+packages. You can make installations even faster by adding ``no-index
+= True`` to the ``[install]`` section; that way, installations won't
+even hit PyPI, further reducing latency. Keep in mind that you will
+then no longer be able to use ``pip install`` to install anything,
+unless you've first made a wheel out of it.
 
 .. _tox: https://testrun.org/tox/
 .. _virtualenv: https://pypi.python.org/pypi/virtualenv/
