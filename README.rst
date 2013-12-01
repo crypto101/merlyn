@@ -4,8 +4,8 @@
 
 A server backend for interactive online exercises.
 
-Testing and building the documentation
-======================================
+Testing and documentation
+=========================
 
 Testing is done using tox_. Install it, and run it from the command
 line in the repository root. This will create a virtualenv_ for each
