@@ -1,6 +1,5 @@
 # Test-only requirements
 coverage
-mock
 
 # Debugging niceties
 pudb
