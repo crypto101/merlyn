@@ -8,5 +8,7 @@ class StepTests(SynchronousTestCase):
         """
         The Step item class implements the IStep interface.
         """
-        step = exercise.Step(text=u"", validatorName=b"")
-        verifyObject(imerlin.IStep, step)
+        lastStep = exercise.Step()
+        firstStep = exercise.Step(nextStep=lastStep)
+        verifyObject(imerlin.IStep, firstStep)
+        verifyObject(imerlin.IStep, lastStep)
