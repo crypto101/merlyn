@@ -48,8 +48,13 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
-0.0.3 (WIP)
+0.0.4 (WIP)
 -----------
+
+Nothing yet!
+
+0.0.3
+-----
 
 Features:
 
