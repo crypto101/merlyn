@@ -1,7 +1,7 @@
 from axiom import attributes, item, store
-from merlin.exercise import Exercise, Step
-from merlin.interfaces import IRenderer, IValidator
-from merlin.renderers import StringTemplateRenderer
+from merlyn.exercise import Exercise, Step
+from merlyn.interfaces import IRenderer, IValidator
+from merlyn.renderers import StringTemplateRenderer
 from twisted.trial.unittest import SynchronousTestCase
 from zope.interface import implementer, verify
 

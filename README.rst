@@ -1,5 +1,5 @@
 ========
- merlin
+ merlyn
 ========
 
 A server backend for interactive online exercises.
@@ -51,7 +51,7 @@ Release notes
 0.0.4 (WIP)
 -----------
 
-Nothing yet!
+Renamed to merlyn (see "Whence the name" below).
 
 0.0.3
 -----
@@ -67,7 +67,7 @@ Upgrades:
 - repoze.sphinx.autointerface -> sphinxcontrib-zopeext, which appears
   to be a shinier, more updated version of the same thing
 
-Common things between merlin and arthur_, such as shared AMP command
+Common things between merlyn and arthur_, such as shared AMP command
 classes, were moved to clarent_.
 
 0.0.2
@@ -87,12 +87,16 @@ Initial public release. Nothing much to see here.
 Whence the name?
 ================
 
-This project is called merlin_, because the step-by-step oracle-like
-model reminded me of Merlin in the AM complexity class and
-`Arthur-Merlin protocols`_. Since Arthur is the person who performs
-the protocol together with Merlin, it only made sense to name the
-client side project `arthur`. Finally, clarent_, named after king
-Arthur's ceremonial sword, holds common tools.
+This project was originally called merlin, because the step-by-step
+oracle-like model reminded me of Merlin in the AM complexity class and
+`Arthur-Merlin protocols`_. It's since been renamed to merlyn, because
+the primo merlin PyPI real estate has been taken up by some kind of
+weird setuptools fork.
+
+Since Arthur is the person who performs the protocol together with
+Merlin, it only made sense to name the client side project `arthur`.
+Finally, clarent_, named after king Arthur's ceremonial sword, holds
+common tools.
 
 .. _arthur: https://github.com/crypto101/arthur
 .. _clarent: https://github.com/crypto101/clarent

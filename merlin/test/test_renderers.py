@@ -1,7 +1,7 @@
 from axiom import attributes, item
 from twisted.trial.unittest import SynchronousTestCase
-from merlin.renderers import StringTemplateRenderer
-from merlin.interfaces import IRenderer
+from merlyn.renderers import StringTemplateRenderer
+from merlyn.interfaces import IRenderer
 from zope.interface.verify import verifyObject
 
 

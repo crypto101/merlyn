@@ -2,7 +2,7 @@
 Step renderers.
 """
 from axiom import attributes, item
-from merlin.interfaces import IRenderer
+from merlyn.interfaces import IRenderer
 from zope.interface import implementer
 
 

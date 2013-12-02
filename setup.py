@@ -2,7 +2,7 @@ import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
-packageName = "merlin"
+packageName = "merlyn"
 
 import re
 versionLine = open("{0}/_version.py".format(packageName), "rt").read()

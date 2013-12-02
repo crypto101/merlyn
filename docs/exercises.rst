@@ -13,9 +13,9 @@ Steps are objects that optionally refer to a following step (unless
 they are the last step in an exercise). They also must be adaptable
 to the following interfaces:
 
-- :py:class:`IRenderer<merlin.interfaces.IRenderer>`, for rendering a
+- :py:class:`IRenderer<merlyn.interfaces.IRenderer>`, for rendering a
   step to a user.
-- :py:class:`IValidator<merlin.interfaces.IValidator>`, for validating
+- :py:class:`IValidator<merlyn.interfaces.IValidator>`, for validating
   a submission by the user.
 
 Usually, this is accomplished using Axiom powerups. While there's
@@ -26,11 +26,11 @@ you in the direction of extensive composition.
 Step interfaces
 ---------------
 
-.. autointerface:: merlin.interfaces.IStep
+.. autointerface:: merlyn.interfaces.IStep
                    :members:
 
-.. autointerface:: merlin.interfaces.IRenderer
+.. autointerface:: merlyn.interfaces.IRenderer
                    :members:
 
-.. autointerface:: merlin.interfaces.IValidator
+.. autointerface:: merlyn.interfaces.IValidator
                    :members:

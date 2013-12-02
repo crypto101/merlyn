@@ -1,4 +1,4 @@
-from merlin import exercise, interfaces as imerlin
+from merlyn import exercise, interfaces as imerlyn
 from twisted.trial.unittest import SynchronousTestCase
 from zope.interface.verify import verifyObject
 
@@ -10,5 +10,5 @@ class StepTests(SynchronousTestCase):
         """
         lastStep = exercise.Step()
         firstStep = exercise.Step(nextStep=lastStep)
-        verifyObject(imerlin.IStep, firstStep)
-        verifyObject(imerlin.IStep, lastStep)
+        verifyObject(imerlyn.IStep, firstStep)
+        verifyObject(imerlyn.IStep, lastStep)

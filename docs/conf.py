@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# merlin documentation build configuration file, created by
+# merlyn documentation build configuration file, created by
 # sphinx-quickstart on Mon Nov 18 21:53:10 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -47,8 +47,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'merlin'
-copyright = u'2013, the merlin authors'
+project = u'merlyn'
+copyright = u'2013, the merlyn authors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -168,7 +168,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'merlindoc'
+htmlhelp_basename = 'merlyndoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -187,8 +187,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'merlin.tex', u'merlin Documentation',
-   u'the merlin authors', 'manual'),
+  ('index', 'merlyn.tex', u'merlyn Documentation',
+   u'the merlyn authors', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -217,8 +217,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'merlin', u'merlin Documentation',
-     [u'the merlin authors'], 1)
+    ('index', 'merlyn', u'merlyn Documentation',
+     [u'the merlyn authors'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -231,8 +231,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'merlin', u'merlin Documentation',
-   u'the merlin authors', 'merlin', 'One line description of project.',
+  ('index', 'merlyn', u'merlyn Documentation',
+   u'the merlyn authors', 'merlyn', 'One line description of project.',
    'Miscellaneous'),
 ]
 

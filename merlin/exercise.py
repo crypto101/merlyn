@@ -2,7 +2,7 @@
 Basic exercise and step implementations.
 """
 from axiom import attributes, item
-from merlin import interfaces as imerlin
+from merlyn import interfaces as imerlyn
 from zope.interface import implementer
 
 
@@ -16,7 +16,7 @@ class Exercise(item.Item):
 
 
 
-@implementer(imerlin.IStep)
+@implementer(imerlyn.IStep)
 class Step(item.Item):
     """
     A single step in an exercise.
