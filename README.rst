@@ -55,6 +55,7 @@ Features:
 
 - Basic documentation for steps and exercises
 - Interfaces: IStep, IRenderer, IValidator (see docs)
+- A renderer based on string templating (str.format)
 
 Upgrades:
 
