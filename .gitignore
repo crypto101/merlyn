@@ -1,0 +1,25 @@
+# Emacs
+*~
+\#*
+.\#*
+
+# Python
+*.pyc
+*.pyo
+.coverage
+.ropeproject
+_trial_temp
+.tox
+
+# Build junk
+.build/*
+MANIFEST
+dist/*
+*.egg-info/*
+*.egg/*
+
+# Sphinx
+_build
+
+# OS X
+.DS_Store
