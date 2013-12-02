@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = merlin
+source = merlyn
 
 [report]
 exclude_lines =
