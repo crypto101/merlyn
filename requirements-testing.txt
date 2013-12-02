@@ -3,7 +3,3 @@ coverage
 
 # Debugging niceties
 pudb
-
-# Documentation
-sphinx
-sphinxcontrib-zopeext
