@@ -91,3 +91,4 @@ Arthur's ceremonial sword, holds common tools.
 
 .. _arthur: https://github.com/crypto101/arthur
 .. _clarent: https://github.com/crypto101/clarent
+.. _`Arthur-Merlin protocols`: https://en.wikipedia.org/wiki/Merlin-Arthur_protocol
