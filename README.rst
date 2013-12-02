@@ -31,7 +31,7 @@ use wheel_ by default, by placing the following in your
 After that, build wheels out of the requirements by running the
 following command once::
 
-  pip wheel -r requirements.txt
+  pip wheel -r requirements.txt -r requirements-docs.txt -r requirements-testing.txt
 
 That will build wheels, which are faster to install than regular
 packages. You can make installations even faster by adding ``no-index
