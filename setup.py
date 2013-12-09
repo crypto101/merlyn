@@ -1,6 +1,7 @@
 import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
+from setuptools.command import egg_info
 
 packageName = "merlyn"
 
@@ -19,6 +20,16 @@ class Tox(TestCommand):
         import tox
         sys.exit(tox.cmdline([]))
 
+def _topLevel(name):
+    return name.split('.', 1)[0]
+
+def _hacked_write_toplevel_names(cmd, basename, filename):
+    names = map(_topLevel, cmd.distribution.iter_distribution_names())
+    pkgs = dict.fromkeys(set(names) - set(["twisted"]))
+    cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
+
+egg_info.write_toplevel_names = _hacked_write_toplevel_names
+
 setup(name=packageName,
       version=versionString,
       description='A server backend for interactive online exercises.',
@@ -28,7 +39,7 @@ setup(name=packageName,
       author='Laurens Van Houtven',
       author_email='_@lvh.io',
 
-      packages=find_packages(),
+      packages=find_packages() + ['twisted.plugins'],
       test_suite=packageName + ".test",
       setup_requires=['tox'],
       cmdclass={'test': Tox},
@@ -49,3 +60,10 @@ setup(name=packageName,
           "Topic :: Security :: Cryptography",
         ]
 )
+
+try:
+    from twisted.plugin import IPlugin, getPlugins
+except ImportError:
+    pass
+else:
+    list(getPlugins(IPlugin))

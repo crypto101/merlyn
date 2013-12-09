@@ -18,6 +18,9 @@ dist/*
 *.egg-info/*
 *.egg
 
+# Twisted plugins
+dropin.cache
+
 # Sphinx
 _build
 
