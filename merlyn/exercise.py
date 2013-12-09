@@ -4,6 +4,7 @@ Basic exercise and step implementations.
 from axiom import attributes, item, queryutil as q
 from axiom.errors import ItemNotFound
 from clarent import exercise as ce
+from merlyn.auth import loginRequired
 from twisted.protocols import amp
 
 
@@ -51,20 +52,40 @@ def solveAndNotify(proto, exercise):
     This will log the solution and notify the user.
     """
     exercise.solvedBy(proto.user)
-    proto.callRemote(ce.NotifySolved, identifier=exercise.identifier)
+    proto.callRemote(ce.NotifySolved,
+                     identifier=exercise.identifier,
+                     title=exercise.title)
 
 
 
 class Locator(amp.CommandLocator):
     @ce.GetExercises.responder
-    def getExercises(self, completed=False):
-        pass
+    @loginRequired
+    def getExercises(self, solved):
+        return {"exercises": [{b"title": e.title, b"identifier": e.identifier}
+                              for e in self._getExercises(solved)]}
+
+
+    def _getExercises(self, yieldSolved):
+        for ex in self.store.query(Exercise):
+            if ex.wasSolvedBy(self.user):
+                if yieldSolved:
+                    yield ex
+            else:
+                if not yieldSolved:
+                    yield ex
+
 
 
     @ce.GetExerciseDetails.responder
+    @loginRequired
     def getExerciseDetails(self, identifier):
+        """Gets the details for a particular exercise.
+
+        """
         exercise = self._getExercise(identifier)
         response = {
+            b"identifier": exercise.identifier,
             b"title": exercise.title,
             b"description": exercise.description,
             b"solved": exercise.wasSolvedBy(self.user)
@@ -74,6 +95,7 @@ class Locator(amp.CommandLocator):
 
     def _getExercise(self, identifier):
         try:
-            return self.store.findUnique(Exercise, identifier=identifier)
+            cond = Exercise.identifier == identifier
+            return self.store.findUnique(Exercise, cond)
         except ItemNotFound:
             raise ce.UnknownExercise()

@@ -100,7 +100,8 @@ class GetExercisesTests(_LocatorTests, SynchronousTestCase):
         """A user can get some new exercises.
 
         """
-        exercises = self.locator.getExercises(solved=False)
+        response = self.locator.getExercises(solved=False)
+        exercises = list(response["exercises"])
         exercises.sort(key=lambda d: d[b"identifier"])
         self.assertEqual(exercises, [
             {b"title": u"Exercise 2", b"identifier": b"2"},
@@ -112,7 +113,8 @@ class GetExercisesTests(_LocatorTests, SynchronousTestCase):
         """A user can get previously solved exercises.
 
         """
-        exercises = self.locator.getExercises(solved=True)
+        response = self.locator.getExercises(solved=True)
+        exercises = list(response["exercises"])
         exercises.sort(key=lambda d: d["identifier"])
         self.assertEqual(exercises, [
             {b"title": u"Exercise 1", b"identifier": b"1"},
@@ -120,13 +122,13 @@ class GetExercisesTests(_LocatorTests, SynchronousTestCase):
 
 
 
-class GetExerciseDetailsTests(SynchronousTestCase):
+class GetExerciseDetailsTests(_LocatorTests, SynchronousTestCase):
     def test_loginRequired(self):
         """A user must be logged in to call this method.
 
         """
         self.locator.user = None
-        self.assertRaises(NotRegistered, self.locator.getExerciseDetails)
+        self.assertRaises(NotRegistered, self.locator.getExerciseDetails, b"")
 
 
     def test_getSolvedExerciseDetails(self):
@@ -137,6 +139,7 @@ class GetExerciseDetailsTests(SynchronousTestCase):
         self.assertEqual(details, {
             b"identifier": b"1",
             b"title": u"Exercise 1",
+            b"description": u"\N{CLOUD}",
             b"solved": True
         })
 
@@ -149,6 +152,7 @@ class GetExerciseDetailsTests(SynchronousTestCase):
         self.assertEqual(details, {
             b"identifier": "2",
             b"title": u"Exercise 2",
+            b"description": u"\N{CLOUD}",
             b"solved": False
         })
 
