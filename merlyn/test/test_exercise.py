@@ -8,18 +8,27 @@ from txampext.respondertests import ResponderTestMixin
 
 
 
+defaultExerciseKwargs = {
+    "identifier": b"identifier",
+    "title": u"\N{SNOWMAN}",
+    "description": u"\N{CLOUD}"
+}
+
+
+def makeExercise(**kwargs):
+    kw = defaultExerciseKwargs.copy()
+    kw.update(kwargs)
+    return Exercise(**kw)
+
+
+
 class ExerciseTests(SynchronousTestCase):
     def test_wasSolvedBy(self):
         """The exercise knows when it was solved by a particular user.
 
         """
         store = Store()
-
-        exercise = Exercise(
-            store=store,
-            identifier=b"identifier",
-            title=u"\N{SNOWMAN}",
-            description=u"\N{CLOUD}")
+        exercise = makeExercise(store=store)
 
         someUser = User(store=store, email="foo@example.com")
         self.assertFalse(exercise.wasSolvedBy(someUser))
@@ -37,11 +46,7 @@ class SolveAndNotifyTests(SynchronousTestCase):
         store = Store()
         user = User(store=store, email="test@example.com")
         proto = FakeProto(store, user)
-        exercise = Exercise(
-            store=store,
-            identifier=b"identifier",
-            title=u"\N{SNOWMAN}",
-            description=u"\N{CLOUD}")
+        exercise = makeExercise(store=store)
 
         self.assertFalse(exercise.wasSolvedBy(user))
         solveAndNotify(proto, exercise)
@@ -74,11 +79,11 @@ class _LocatorTests(object):
         self.locator.store = store = Store()
         self.locator.user = user = User(store=store, email=b"x@y.z")
 
-        one = Exercise(store=store, title=u"Exercise 1", identifier=b"1")
+        one = makeExercise(store=store, title=u"Exercise 1", identifier=b"1")
         one.solvedBy(user)
 
-        Exercise(store=store, title=u"Exercise 2", identifier=b"2")
-        Exercise(store=store, title=u"Exercise 3", identifier=b"3")
+        makeExercise(store=store, title=u"Exercise 2", identifier=b"2")
+        makeExercise(store=store, title=u"Exercise 3", identifier=b"3")
 
 
 
