@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   exercises
+   auth
 
 Indices and tables
 ==================
