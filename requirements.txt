@@ -5,3 +5,4 @@ epsilon
 pysqlite
 axiom
 maxims==0.0.2
+clarent==0.0.3
