@@ -2,9 +2,9 @@ from axiom.store import Store
 from clarent.exercise import GetExercises, GetExerciseDetails
 from clarent.exercise import UnknownExercise, NotifySolved
 from merlyn.exercise import Exercise, Locator, solveAndNotify
-from merlyn.auth import User, NotLoggedIn
+from merlyn.auth import User, NotRegistered
 from twisted.trial.unittest import SynchronousTestCase
-from txampext.respondertests import ResponderTests
+from txampext.respondertests import ResponderTestMixin
 
 
 
@@ -88,7 +88,7 @@ class GetExercisesTests(_LocatorTests, SynchronousTestCase):
 
         """
         self.locator.user = None
-        self.assertRaises(NotLoggedIn, self.locator.getExercises)
+        self.assertRaises(NotRegistered, self.locator.getExercises)
 
 
     def test_getExercises(self):
@@ -121,7 +121,7 @@ class GetExerciseDetailsTests(SynchronousTestCase):
 
         """
         self.locator.user = None
-        self.assertRaises(NotLoggedIn, self.locator.getExerciseDetails)
+        self.assertRaises(NotRegistered, self.locator.getExerciseDetails)
 
 
     def test_getSolvedExerciseDetails(self):
@@ -162,12 +162,12 @@ locator = Locator()
 
 
 
-class GetExercisesResponderTests(ResponderTests):
+class GetExercisesResponderTests(ResponderTestMixin, SynchronousTestCase):
     command =  GetExercises
     locator = locator
 
 
 
-class GetExerciseDetailsResponderTests(ResponderTests):
+class GetExerciseDetailsResponderTests(ResponderTestMixin, SynchronousTestCase):
     command =  GetExerciseDetails
     locator = locator
