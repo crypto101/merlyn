@@ -3,3 +3,4 @@ coverage
 
 # Debugging niceties
 pudb
+ipython
