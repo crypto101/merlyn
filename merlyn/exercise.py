@@ -4,7 +4,6 @@ Basic exercise and step implementations.
 from axiom import attributes, item, queryutil as q
 from axiom.errors import ItemNotFound
 from clarent import exercise as ce
-from maxims.creation import creationLogged, creationTime
 from twisted.protocols import amp
 
 
