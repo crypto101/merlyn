@@ -53,6 +53,10 @@ Release notes
 
 Renamed to merlyn (see "Whence the name" below).
 
+Features:
+
+- Drastically simplified exercise API
+
 0.0.3
 -----
 
