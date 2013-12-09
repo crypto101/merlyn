@@ -1,5 +1,5 @@
 from axiom import store
-from merlyn import exercise
+from merlyn import auth, exercise
 from twisted.application import service
 from twisted import plugin
 from twisted.internet import reactor
@@ -10,7 +10,7 @@ from twisted.python import usage
 from zope import interface
 
 
-class AMP(AMP, exercise.Locator):
+class AMP(AMP, exercise.Locator, auth.Locator):
     """
     The merlyn AMP protocol.
     """
