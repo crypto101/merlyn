@@ -56,10 +56,12 @@ def solveAndNotify(proto, exercise):
 
 
 class Locator(amp.CommandLocator):
+    @ce.GetExercises.responder
     def getExercises(self, completed=False):
         pass
 
 
+    @ce.GetExerciseDetails.responder
     def getExerciseDetails(self, identifier):
         exercise = self._getExercise(identifier)
         response = {
