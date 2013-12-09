@@ -1,8 +1,13 @@
-# Base requirements
-twisted>=12.3.0
-txampext==0.0.9
+# Public API
+clarent==0.0.4
+
+# Base requirements, Twisted, TLS, AMP etc
+twisted>=13.2.0
+pyOpenSSL==0.13.1
+txampext==0.0.10
+
+# Storage
 epsilon
 pysqlite
 axiom
 maxims==0.0.2
-clarent==0.0.3
