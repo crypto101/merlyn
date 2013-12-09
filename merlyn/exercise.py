@@ -11,7 +11,7 @@ class Exercise(item.Item):
     """
     An exercise.
     """
-    identifier = attributes.string(allowNone=False)
+    identifier = attributes.text(allowNone=False)
     title = attributes.text(allowNone=False)
     description = attributes.text(allowNone=False)
 
