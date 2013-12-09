@@ -21,13 +21,13 @@ class ExerciseTests(SynchronousTestCase):
             title=u"\N{SNOWMAN}",
             description=u"\N{CLOUD}")
 
-        someUser = User(store=store, email=u"foo@example.com")
+        someUser = User(store=store, email="foo@example.com")
         self.assertFalse(exercise.wasSolvedBy(someUser))
 
         exercise.solvedBy(someUser)
         self.assertTrue(exercise.wasSolvedBy(someUser))
 
-        someOtherUser = User(store=store, email=u"bar@example.com")
+        someOtherUser = User(store=store, email="bar@example.com")
         self.assertFalse(exercise.wasSolvedBy(someOtherUser))
 
 
@@ -35,7 +35,7 @@ class ExerciseTests(SynchronousTestCase):
 class SolveAndNotifyTests(SynchronousTestCase):
     def test_solveAndNotify(self):
         store = Store()
-        user = User(store=store, email=u"test@example.com")
+        user = User(store=store, email="test@example.com")
         proto = FakeProto(store, user)
         exercise = Exercise(
             store=store,
@@ -72,7 +72,7 @@ class _LocatorTests(object):
     def setUp(self):
         self.locator = Locator()
         self.locator.store = store = Store()
-        self.locator.user = user = User(store=store)
+        self.locator.user = user = User(store=store, email=b"x@y.z")
 
         one = Exercise(store=store, title=u"Exercise 1", identifier=b"1")
         one.solvedBy(user)
