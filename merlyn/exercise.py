@@ -11,12 +11,12 @@ class Exercise(item.Item):
     """
     An exercise.
     """
-    identifier = attributes.text(allowNone=False)
+    identifier = attributes.bytes(allowNone=False)
     title = attributes.text(allowNone=False)
     description = attributes.text(allowNone=False)
 
     def solvedBy(self, user):
-        """Notes that this user has just solved this exercise.
+        """Stores that this user has just solved this exercise.
 
         You probably want to notify the user when this happens. For
         that, see ``solveAndNotify``.
