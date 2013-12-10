@@ -1,10 +1,11 @@
 from axiom import store
 from merlyn import auth, exercise
+from OpenSSL.SSL import Context, VERIFY_PEER, SSLv23_METHOD
+from OpenSSL.SSL import OP_SINGLE_DH_USE, OP_NO_SSLv2, OP_NO_SSLv3
 from twisted.application import service
 from twisted import plugin
 from twisted.internet import reactor
 from twisted.internet.protocol import ServerFactory
-from twisted.internet.ssl import PrivateCertificate
 from twisted.protocols.amp import AMP
 from twisted.python import usage
 from zope import interface
@@ -43,12 +44,38 @@ class Service(service.Service):
 
 
     def startService(self):
-        with open("cert.pem") as certFile, open("key.pem") as keyFile:
-            pemData = keyFile.read() + certFile.read()
-        cert = PrivateCertificate.loadPEM(pemData)
         factory = ServerFactory.forProtocol(AMP)
         factory.store = self.store
-        reactor.listenSSL(4430, factory, cert.options())
+        reactor.listenSSL(4430, factory, ContextFactory())
+
+
+
+class ContextFactory(object):
+    def getContext(self):
+        """Creates a context.
+
+        This will make contexts using ``SSLv23_METHOD``. This is
+        because OpenSSL thought it would be a good idea to have
+        ``TLSv1_METHOD`` mean "only use TLSv1.0" -- specifically, it
+        disables TLSv1.2. Since we don't want to use SSLv2 and v3, we
+        set OP_NO_SSLv2|OP_NO_SSLv3. Additionally, we set
+        OP_SINGLE_DH_USE.
+
+        """
+        ctx = Context(SSLv23_METHOD)
+        ctx.use_certificate_file("cert.pem")
+        ctx.use_privatekey_file("key.pem")
+        ctx.set_options(OP_SINGLE_DH_USE|OP_NO_SSLv2|OP_NO_SSLv3)
+        ctx.set_verify(VERIFY_PEER, _verify)
+        return ctx
+
+
+
+def _verify(connection, x509, errorNumber, errorDepth, returnCode):
+    """Always pretend the certificate verified.
+
+    """
+    return True
 
 
 
