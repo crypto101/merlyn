@@ -46,6 +46,10 @@ class Locator(CommandLocator):
 
     @Register.responder
     def register(self, email):
+        """Registers the user, identified with the given email address, to
+        the current connection's certificate digest.
+
+        """
         if self.user is not None:
             raise AlreadyRegistered()
 
