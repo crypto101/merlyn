@@ -9,7 +9,7 @@ from twisted.python import usage
 from zope import interface
 
 
-class AMP(AMP, exercise.Locator, auth.Locator):
+class AMP(AMP, exercise.Locator, auth.UserMixin):
     """
     The merlyn AMP protocol.
     """
@@ -24,7 +24,7 @@ class Options(usage.Options):
     The options for starting a service.
     """
     optParameters = [
-        ["store", "s", None, "Path to root store (mandatory)", store.Store]
+        ["store", "s", None, "Path to the store (mandatory)", store.Store]
     ]
 
     def postOptions(self):
@@ -44,7 +44,8 @@ class Service(service.Service):
     def startService(self):
         factory = ServerFactory.forProtocol(AMP)
         factory.store = self.store
-        reactor.listenSSL(4430, factory, auth.ContextFactory())
+        ctxFactory = auth.ContextFactory(self.store)
+        reactor.listenSSL(4430, factory, ctxFactory)
 
 
 

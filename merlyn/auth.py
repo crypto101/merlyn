@@ -1,23 +1,20 @@
 from axiom import attributes, item
 from axiom.errors import ItemNotFound
-from clarent.auth import Register
-from clarent.auth import BadEmailAddress, AlreadyRegistered, NotRegistered
-from functools import wraps
 from OpenSSL.SSL import Context, VERIFY_PEER, SSLv23_METHOD
 from OpenSSL.SSL import OP_SINGLE_DH_USE, OP_NO_SSLv2, OP_NO_SSLv3
-from twisted.protocols.amp import CommandLocator
+from twisted.python import log
 
 
 class User(item.Item):
     """
     A user.
     """
-    email = attributes.bytes(allowNone=False)
+    email = attributes.bytes(allowNone=False) # TODO: index
     digest = attributes.bytes()
 
 
 
-class Locator(CommandLocator):
+class UserMixin(object):
     _user = None
 
     @property
@@ -29,63 +26,18 @@ class Locator(CommandLocator):
         if self._user is not None:
             return self._user
 
-        try:
-            user = self.store.findUnique(User, User.digest == self._digest)
-        except ItemNotFound:
-            return None
-
-        self._user = user
+        cert = self.transport.getPeerCertificate()
+        email = cert.get_subject().CN.encode("utf-8")
+        self._user = user = self.store.findUnique(User, User.email == email)
         return user
-
-
-    @property
-    def _digest(self):
-        """The SHA-512 digest of the current client certificate.
-
-        """
-        return self.transport.getPeerCertificate().digest("sha512")
-
-
-    @Register.responder
-    def register(self, email):
-        """Registers the user, identified with the given email address, to
-        the current connection's certificate digest.
-
-        """
-        if self.user is not None:
-            raise AlreadyRegistered()
-
-        try:
-            withThisEmail = User.email == email
-            user = self.store.findUnique(User, withThisEmail)
-        except ItemNotFound:
-            raise BadEmailAddress()
-
-        if user.digest is not None:
-            raise AlreadyRegistered()
-
-        user.digest = self._digest()
-        self._user = user
-        return {}
-
-
-
-def loginRequired(m):
-    """Decorates a responder method, so that it can only be used while
-    logged in.
-
-    """
-    @wraps(m)
-    def decorated(self, *a, **kw):
-        if self.user is not None:
-            return m(self, *a, **kw)
-        else:
-            raise NotRegistered()
-    return decorated
 
 
 
 class ContextFactory(object):
+    def __init__(self, store):
+        self.store = store
+
+
     def getContext(self):
         """Creates a context.
 
@@ -105,8 +57,28 @@ class ContextFactory(object):
         return ctx
 
 
-    def _verify(self, connection, x509, errorNumber, errorDepth, returnCode):
+    def _verify(self, connection, cert, errorNumber, errorDepth, returnCode):
         """Verify a certificate.
 
         """
-        return True
+        try:
+            email = cert.get_subject().CN.encode("utf-8")
+            user = self.store.findUnique(User, User.email == email)
+        except ItemNotFound:
+            log.msg("Connection attempt by CN {0!r}, but no user with that "
+                    "e-mail address was found".format(email))
+            return False
+
+        digest = cert.digest("sha512")
+        if user.digest is None:
+            user.digest = digest
+            log.msg("First connection by {!0r}, stored digest: "
+                    "{1}".format(email, digest))
+            return True
+        elif user.digest == digest:
+            log.msg("Successful connection by {0!r}".format(email))
+            return True
+        else:
+            log.msg("Failed connection by {0!r}; cert digest was {}, "
+                    "expecting {}".format(email, digest, user.digest))
+            return False

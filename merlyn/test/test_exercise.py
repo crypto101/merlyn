@@ -2,7 +2,7 @@ from axiom.store import Store
 from clarent.exercise import GetExercises, GetExerciseDetails
 from clarent.exercise import UnknownExercise, NotifySolved
 from merlyn.exercise import Exercise, Locator, solveAndNotify
-from merlyn.auth import User, NotRegistered
+from merlyn.auth import User
 from twisted.trial.unittest import SynchronousTestCase
 from txampext.respondertests import ResponderTestMixin
 
@@ -88,14 +88,6 @@ class _LocatorTests(object):
 
 
 class GetExercisesTests(_LocatorTests, SynchronousTestCase):
-    def test_loginRequired(self):
-        """A user must be logged in to call this method.
-
-        """
-        self.locator.user = None
-        self.assertRaises(NotRegistered, self.locator.getExercises)
-
-
     def test_getExercises(self):
         """A user can get some new exercises.
 
@@ -123,14 +115,6 @@ class GetExercisesTests(_LocatorTests, SynchronousTestCase):
 
 
 class GetExerciseDetailsTests(_LocatorTests, SynchronousTestCase):
-    def test_loginRequired(self):
-        """A user must be logged in to call this method.
-
-        """
-        self.locator.user = None
-        self.assertRaises(NotRegistered, self.locator.getExerciseDetails, b"")
-
-
     def test_getSolvedExerciseDetails(self):
         """A user can get details about a solved exercise.
 

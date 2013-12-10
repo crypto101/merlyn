@@ -4,7 +4,6 @@ Basic exercise and step implementations.
 from axiom import attributes, item, queryutil as q
 from axiom.errors import ItemNotFound
 from clarent import exercise as ce
-from merlyn.auth import loginRequired
 from twisted.protocols import amp
 
 
@@ -60,7 +59,6 @@ def solveAndNotify(proto, exercise):
 
 class Locator(amp.CommandLocator):
     @ce.GetExercises.responder
-    @loginRequired
     def getExercises(self, solved):
         return {"exercises": [{b"title": e.title, b"identifier": e.identifier}
                               for e in self._getExercises(solved)]}
@@ -78,7 +76,6 @@ class Locator(amp.CommandLocator):
 
 
     @ce.GetExerciseDetails.responder
-    @loginRequired
     def getExerciseDetails(self, identifier):
         """Gets the details for a particular exercise.
 
