@@ -11,7 +11,7 @@ class User(item.Item):
     A user.
     """
     email = attributes.bytes(allowNone=False)
-    fingerprint = attributes.bytes()
+    digest = attributes.bytes()
 
 
 
@@ -20,17 +20,15 @@ class Locator(CommandLocator):
 
     @property
     def user(self):
+        """The current user.
+
+        This property is cached in the ``_user`` attribute.
+        """
         if self._user is not None:
             return self._user
 
-        cert = self.transport.getPeerCertificate()
-        if cert is None:
-            return None # TODO: Remove this.
-
-        withThisFingerprint = User.fingerprint == cert
-
         try:
-            user = self.store.findUnique(User, withThisFingerprint)
+            user = self.store.findUnique(User, User.digest == self._digest)
         except ItemNotFound:
             return None
 
@@ -38,12 +36,18 @@ class Locator(CommandLocator):
         return user
 
 
+    @property
+    def _digest(self):
+        """The SHA-512 digest of the current client certificate.
+
+        """
+        return self.transport.getPeerCertificate().digest("sha512")
+
+
     @Register.responder
     def register(self, email):
         if self.user is not None:
             raise AlreadyRegistered()
-
-        import pudb; pudb.set_trace()
 
         try:
             withThisEmail = User.email == email
@@ -51,10 +55,12 @@ class Locator(CommandLocator):
         except ItemNotFound:
             raise BadEmailAddress()
 
-        if user.fingerprint:
+        if user.digest is not None:
             raise AlreadyRegistered()
 
-        cert = self.transport.getPeerCertificate()
+        user.digest = self._digest()
+        self._user = user
+        return {}
 
 
 
