@@ -101,13 +101,12 @@ class ContextFactory(object):
         ctx.use_certificate_file("cert.pem")
         ctx.use_privatekey_file("key.pem")
         ctx.set_options(OP_SINGLE_DH_USE|OP_NO_SSLv2|OP_NO_SSLv3)
-        ctx.set_verify(VERIFY_PEER, _verify)
+        ctx.set_verify(VERIFY_PEER, self._verify)
         return ctx
 
 
+    def _verify(self, connection, x509, errorNumber, errorDepth, returnCode):
+        """Verify a certificate.
 
-def _verify(connection, x509, errorNumber, errorDepth, returnCode):
-    """Always pretend the certificate verified.
-
-    """
-    return True
+        """
+        return True
