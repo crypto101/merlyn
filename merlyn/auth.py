@@ -61,24 +61,25 @@ class ContextFactory(object):
         """Verify a certificate.
 
         """
+        import pudb; pudb.set_trace()
         try:
-            email = cert.get_subject().CN.encode("utf-8")
+            email = cert.get_subject().emailAddress.encode("utf-8")
             user = self.store.findUnique(User, User.email == email)
         except ItemNotFound:
-            log.msg("Connection attempt by CN {0!r}, but no user with that "
+            log.msg("Connection attempt by {0!r}, but no user with that "
                     "e-mail address was found".format(email))
             return False
 
         digest = cert.digest("sha512")
         if user.digest is None:
             user.digest = digest
-            log.msg("First connection by {!0r}, stored digest: "
-                    "{1}".format(email, digest))
+            log.msg("First connection by {!0r}, stored digest: {1}"
+                    .format(email, digest))
             return True
         elif user.digest == digest:
             log.msg("Successful connection by {0!r}".format(email))
             return True
         else:
-            log.msg("Failed connection by {0!r}; cert digest was {}, "
-                    "expecting {}".format(email, digest, user.digest))
+            log.msg("Failed connection by {0!r}; cert digest was {1}, "
+                    "expecting {2}".format(email, digest, user.digest))
             return False
