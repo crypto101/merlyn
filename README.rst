@@ -48,14 +48,15 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
-0.0.4 (WIP)
------------
+0.0.4
+-----
 
 Renamed to merlyn (see "Whence the name" below).
 
 Features:
 
 - Drastically simplified exercise API
+- Authentication API based on SSL certificate verification
 
 0.0.3
 -----
