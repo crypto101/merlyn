@@ -61,7 +61,6 @@ class ContextFactory(object):
         """Verify a certificate.
 
         """
-        import pudb; pudb.set_trace()
         try:
             email = cert.get_subject().emailAddress.encode("utf-8")
             user = self.store.findUnique(User, User.email == email)
