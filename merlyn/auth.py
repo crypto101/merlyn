@@ -72,7 +72,7 @@ class ContextFactory(object):
         digest = cert.digest("sha512")
         if user.digest is None:
             user.digest = digest
-            log.msg("First connection by {!0r}, stored digest: {1}"
+            log.msg("First connection by {0!r}, stored digest: {1}"
                     .format(email, digest))
             return True
         elif user.digest == digest:
