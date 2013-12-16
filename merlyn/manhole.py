@@ -1,3 +1,6 @@
+"""Note: this is horribly insecure; only listen on localhost ever!
+
+"""
 from twisted.cred import portal
 from twisted.conch import manhole, manhole_ssh
 
