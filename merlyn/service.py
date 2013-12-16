@@ -48,7 +48,7 @@ class Service(service.Service):
         reactor.listenSSL(4430, factory, ctxFactory)
 
         manholeFactory = manhole.makeFactory(self.store, factory)
-        reactor.listenTCP(8888, manholeFactory)
+        reactor.listenTCP(8888, manholeFactory, interface="localhost")
 
 
 
