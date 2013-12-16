@@ -5,7 +5,8 @@ clarent==0.0.7
 twisted>=13.2.0
 pyOpenSSL==0.13.1
 txampext==0.0.10
-pycrypto # For twisted.conch
+pycrypto # for manhole
+pyasn1 # for manhole
 
 # Storage
 epsilon
