@@ -1,5 +1,5 @@
 from axiom import store
-from merlyn import auth, exercise
+from merlyn import auth, exercise, manhole
 from twisted.application import service
 from twisted import plugin
 from twisted.internet import reactor
@@ -46,6 +46,9 @@ class Service(service.Service):
         factory.store = self.store
         ctxFactory = auth.ContextFactory(self.store)
         reactor.listenSSL(4430, factory, ctxFactory)
+
+        manholeFactory = manhole.makeFactory(self.store, factory)
+        reactor.listenTCP(8888, manholeFactory)
 
 
 
