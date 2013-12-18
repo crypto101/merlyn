@@ -48,6 +48,13 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
+0.0.5 (WIP)
+----------
+
+Features:
+
+- localhost manhole support for debugging
+
 0.0.4
 -----
 
