@@ -27,8 +27,7 @@ class UserMixin(object):
             return self._user
 
         cert = self.transport.getPeerCertificate()
-        email = cert.get_subject().CN.encode("utf-8")
-        self._user = user = self.store.findUnique(User, User.email == email)
+        self._user = user = userForCert(self.store, cert)
         return user
 
 
@@ -62,23 +61,31 @@ class ContextFactory(object):
 
         """
         try:
-            email = cert.get_subject().emailAddress.encode("utf-8")
-            user = self.store.findUnique(User, User.email == email)
+            user = userForCert(self.store, cert)
         except ItemNotFound:
             log.msg("Connection attempt by {0!r}, but no user with that "
-                    "e-mail address was found".format(email))
+                    "e-mail address was found".format(emailForCert(cert)))
             return False
 
         digest = cert.digest("sha512")
         if user.digest is None:
             user.digest = digest
             log.msg("First connection by {0!r}, stored digest: {1}"
-                    .format(email, digest))
+                    .format(user.email, digest))
             return True
         elif user.digest == digest:
-            log.msg("Successful connection by {0!r}".format(email))
+            log.msg("Successful connection by {0!r}".format(user.email))
             return True
         else:
             log.msg("Failed connection by {0!r}; cert digest was {1}, "
-                    "expecting {2}".format(email, digest, user.digest))
+                    "expecting {2}".format(user.email, digest, user.digest))
             return False
+
+
+
+def emailForCert(cert):
+    return cert.get_subject().emailAddress.encode("utf-8")
+
+
+def userForCert(store, cert):
+    return store.findUnique(User, User.email == emailForCert(cert))
