@@ -67,17 +67,18 @@ class Options(usage.Options):
 
 
 class Service(service.Service):
-    def __init__(self, store):
+    def __init__(self, store, reactor=reactor):
         self.store = store
+        self.reactor = reactor
 
 
     def startService(self):
         factory = AMPFactory(store)
         ctxFactory = auth.ContextFactory(self.store)
-        reactor.listenSSL(4430, factory, ctxFactory)
+        self.reactor.listenSSL(4430, factory, ctxFactory)
 
         manholeFactory = manhole.makeFactory(self.store, factory)
-        reactor.listenTCP(8888, manholeFactory, interface="localhost")
+        self.reactor.listenTCP(8888, manholeFactory, interface="localhost")
 
 
 

@@ -1,7 +1,8 @@
 from axiom.store import Store
-from merlyn import service
+from merlyn import auth, service
+from twisted.conch.manhole_ssh import ConchFactory
 from twisted.internet.protocol import connectionDone
-from twisted.test.proto_helpers import StringTransport
+from twisted.test.proto_helpers import MemoryReactor, StringTransport
 from twisted.trial.unittest import SynchronousTestCase
 
 
@@ -43,6 +44,34 @@ class AMPTests(SynchronousTestCase):
         """
         proto = self.factory.buildProtocol(None)
         self.assertIdentical(proto.store, self.store)
+
+
+
+class ServiceTests(SynchronousTestCase):
+    def setUp(self):
+        self.store = Store()
+        self.reactor = MemoryReactor()
+        self.service = service.Service(self.store, reactor=self.reactor)
+
+
+    def test_startService(self):
+        """The service starts an AMP factory as well as a manhole.
+
+        """
+        self.service.startService()
+
+        ampListenEvent, = self.reactor.sslServers
+        port, factory, ctxFactory, _backlog, interface = ampListenEvent
+        self.assertEqual(port, 4430)
+        self.assertTrue(isinstance(factory, service.AMPFactory))
+        self.assertTrue(isinstance(ctxFactory, auth.ContextFactory))
+        self.assertEqual(interface, "")
+
+        manholeListenEvent, = self.reactor.tcpServers
+        port, factory, _backlog, interface = manholeListenEvent
+        self.assertEqual(port, 8888)
+        self.assertTrue(isinstance(factory, ConchFactory))
+        self.assertEqual(interface, "localhost")
 
 
 
