@@ -18,6 +18,36 @@ class AMP(AMP, exercise.Locator, auth.UserMixin):
         return self.factory.store
 
 
+    def connectionMade(self):
+        """Keep a reference to the protocol on the factory.
+
+        Unfortunately, we can't add the protocol by TLS certificate
+        fingerprint, because the TLS handshake won't have completed
+        yet, so ``self.transport.getPeerCertificate()`` is still
+        ``None``.
+
+        """
+        self.factory.protocols.add(self)
+        super(AMP, self).connectionMade()
+
+
+    def connectionLost(self, reason):
+        """Lose the reference to the protocol on the factory.
+
+        """
+        self.factory.protocols.remove(self)
+        super(AMP, self).connectionLost(reason)
+
+
+
+class AMPFactory(ServerFactory):
+    protocol = AMP
+
+    def __init__(self, store):
+        self.store = store
+        self.protocols = set()
+
+
 
 class Options(usage.Options):
     """
@@ -42,8 +72,7 @@ class Service(service.Service):
 
 
     def startService(self):
-        factory = ServerFactory.forProtocol(AMP)
-        factory.store = self.store
+        factory = AMPFactory(store)
         ctxFactory = auth.ContextFactory(self.store)
         reactor.listenSSL(4430, factory, ctxFactory)
 
