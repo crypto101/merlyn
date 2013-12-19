@@ -1,5 +1,5 @@
 # Public API
-clarent==0.0.7
+clarent==0.0.8
 
 # Base requirements, Twisted, TLS, AMP etc
 twisted>=13.2.0

@@ -28,11 +28,15 @@ class FakeLogObserverTests(SynchronousTestCase):
 
 
 
-class ContextFactoryTests(SynchronousTestCase):
+class TOFUContextFactoryTests(SynchronousTestCase):
+    """Tests for TOFU/POP (Trust On First Use/Persistence of Pseudonym)
+    behavior for the context factory.
+
+    """
     def setUp(self):
         self.store = Store()
         self.user = auth.User(store=self.store, email="user@example.com")
-        self.ctxFactory = auth.ContextFactory(self.store)
+        self.ctxFactory = auth._TOFUContextFactory(self.store)
 
         self.observer = FakeLogObserver()
         addObserver(self.observer)

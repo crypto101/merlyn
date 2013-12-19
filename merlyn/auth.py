@@ -1,5 +1,6 @@
 from axiom import attributes, item
 from axiom.errors import ItemNotFound
+from clarent.certificate import SecureCiphersContextFactory
 from OpenSSL.SSL import Context, VERIFY_PEER, SSLv23_METHOD
 from OpenSSL.SSL import OP_SINGLE_DH_USE, OP_NO_SSLv2, OP_NO_SSLv3
 from twisted.python import log
@@ -40,7 +41,7 @@ class UserMixin(object):
 
 
 
-class ContextFactory(object):
+class _TOFUContextFactory(object):
     def __init__(self, store):
         self.store = store
 
@@ -89,6 +90,17 @@ class ContextFactory(object):
             log.msg("Failed connection by {0!r}; cert digest was {1}, "
                     "expecting {2}".format(user.email, digest, user.digest))
             return False
+
+
+
+class ContextFactory(object):
+    def __init__(self, store):
+        self._wrapped = _TOFUContextFactory(store)
+        self._wrapper = SecureCiphersContextFactory(self._wrapped)
+
+
+    def getContext(self):
+        return self._wrapper.getContext()
 
 
 
