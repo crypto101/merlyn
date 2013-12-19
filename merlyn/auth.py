@@ -72,7 +72,8 @@ class ContextFactory(object):
             user = userForCert(self.store, cert)
         except ItemNotFound:
             log.msg("Connection attempt by {0!r}, but no user with that "
-                    "e-mail address was found".format(emailForCert(cert)))
+                    "e-mail address was found, cert digest was {1}"
+                    .format(emailForCert(cert), cert.digest("sha512")))
             return False
 
         digest = cert.digest("sha512")
