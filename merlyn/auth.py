@@ -15,6 +15,14 @@ class User(item.Item):
 
 
 class UserMixin(object):
+    """A mixin that makes the user available based on the peer certificate.
+
+    Mostly intended for command locators (that are also protocols).
+    Expects a ``store`` attribute, which is the store that has all of
+    the user data, as well as a ``transport`` attribute, which is the
+    transport that has the peer certificate we're authenticating with.
+
+    """
     _user = None
 
     @property
