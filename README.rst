@@ -48,12 +48,13 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
-0.0.5 (WIP)
-----------
+0.0.5
+-----
 
 Features:
 
 - localhost manhole support for debugging
+- Only support good ciphersuites.
 
 0.0.4
 -----
