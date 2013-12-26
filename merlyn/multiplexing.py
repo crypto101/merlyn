@@ -15,7 +15,8 @@ class _PersistedFactory(item.Item):
 class FactoryDict(object):
     """A collection of multiplexable factories.
 
-    This object is read-only.
+    This object is read-only; to persist factories, use
+    ``addToStore``.
 
     """
     def __init__(self, store):
@@ -37,10 +38,13 @@ def addToStore(store, identifier, name):
     """Adds a persisted factory with given identifier and object name to
     the given store.
 
-    This is intended to be partially applied.
+    This is intended to have the identifier and name partially
+    applied, so that a particular module with an exercise in it can
+    just have an ``addToStore`` function that remembers it in the
+    store.
 
-    The only difference between this and ``PeristedFactory`` itself is
-    that you have to pass a store to ``PersistedFactory`` as the
+    The only difference between this and ``_PeristedFactory`` itself is
+    that you have to pass a store to ``_PersistedFactory`` as the
     ``store`` keyword argument, whereas you can pass it to this
     function positionally.
 
