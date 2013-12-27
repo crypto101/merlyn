@@ -7,7 +7,7 @@ packageName = "merlyn"
 
 dependencies = [
     # Public API
-    "clarent==0.0.9",
+    "clarent==0.0.10",
 
     # Base requirements, Twisted, TLS, AMP etc
     "twisted>=13.2.0",
