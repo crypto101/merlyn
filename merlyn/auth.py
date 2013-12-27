@@ -60,6 +60,7 @@ class _TOFUContextFactory(object):
         ctx = Context(SSLv23_METHOD)
         ctx.use_certificate_file("cert.pem")
         ctx.use_privatekey_file("key.pem")
+        ctx.load_tmp_dh("dhparam.pem")
         ctx.set_options(OP_SINGLE_DH_USE|OP_NO_SSLv2|OP_NO_SSLv3)
         ctx.set_verify(VERIFY_PEER, self._verify)
         return ctx
