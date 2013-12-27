@@ -59,6 +59,9 @@ setup(name=packageName,
 
       packages=find_packages() + ['twisted.plugins'],
       test_suite=packageName + ".test",
+
+      install_requires=dependencies,
+
       cmdclass={'test': Tox},
       zip_safe=True,
 
