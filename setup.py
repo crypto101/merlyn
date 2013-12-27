@@ -5,6 +5,24 @@ from setuptools.command import egg_info
 
 packageName = "merlyn"
 
+dependencies = [
+    # Public API
+    "clarent==0.0.9",
+
+    # Base requirements, Twisted, TLS, AMP etc
+    "twisted>=13.2.0",
+    "pyOpenSSL==0.13.1",
+    "txampext==0.0.10",
+    "pycrypto", # (for manhole)
+    "pyasn1", # (for manhole)
+
+    # Storage
+    "epsilon",
+    "pysqlite",
+    "axiom",
+    "maxims==0.0.2",
+]
+
 import re
 versionLine = open("{0}/_version.py".format(packageName), "rt").read()
 match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", versionLine, re.M)
