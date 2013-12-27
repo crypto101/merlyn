@@ -48,6 +48,12 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
+0.0.6
+-----
+
+- Moved requirements into setup.py for easier installs
+- ``clarent`` version requirement bump
+
 0.0.5
 -----
 
