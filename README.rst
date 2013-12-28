@@ -48,8 +48,8 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
-0.0.7 (WIP)
------------
+0.0.7
+-----
 
 - Added support for a ``dhparam.pem``, enabling DH-based PFS
   ciphersuites. ECDH-based PFS ciphersuites is a work in progress, see
