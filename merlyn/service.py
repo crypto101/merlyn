@@ -1,25 +1,31 @@
 from axiom import store
-from merlyn import auth, exercise, manhole
+from merlyn import auth, exercise, manhole, multiplexing
 from twisted.application import service
 from twisted import plugin
-from twisted.internet import reactor
-from twisted.internet.protocol import ServerFactory
+from twisted.internet import protocol, reactor
 from twisted.protocols.amp import AMP
 from twisted.python import usage
+from txampext.multiplexing import MultiplexingCommandLocator
 from zope import interface
 
 
-class AMP(AMP, exercise.Locator, auth.UserMixin):
+class Protocol(AMP, exercise.Locator, auth.UserMixin, MultiplexingCommandLocator):
     """
     The merlyn AMP protocol.
     """
+    def __init__(self):
+        MultiplexingCommandLocator.__init__(self)
+        AMP.__init__(self)
+
+
     @property
     def store(self):
         return self.factory.store
 
 
     def connectionMade(self):
-        """Keep a reference to the protocol on the factory.
+        """Keep a reference to the protocol on the factory, and uses the
+        factory's store to find multiplexed connection factories.
 
         Unfortunately, we can't add the protocol by TLS certificate
         fingerprint, because the TLS handshake won't have completed
@@ -28,6 +34,7 @@ class AMP(AMP, exercise.Locator, auth.UserMixin):
 
         """
         self.factory.protocols.add(self)
+        self._factories = multiplexing.FactoryDict(self.store)
         super(AMP, self).connectionMade()
 
 
@@ -40,8 +47,8 @@ class AMP(AMP, exercise.Locator, auth.UserMixin):
 
 
 
-class AMPFactory(ServerFactory):
-    protocol = AMP
+class Factory(protocol.ServerFactory):
+    protocol = Protocol
 
     def __init__(self, store):
         self.store = store
@@ -73,7 +80,7 @@ class Service(service.Service):
 
 
     def startService(self):
-        factory = AMPFactory(store)
+        factory = Factory(self.store)
         ctxFactory = auth.ContextFactory(self.store)
         self.reactor.listenSSL(4430, factory, ctxFactory)
 
