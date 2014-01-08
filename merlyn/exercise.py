@@ -8,8 +8,8 @@ from twisted.protocols import amp
 
 
 class Exercise(item.Item):
-    """
-    An exercise.
+    """An exercise.
+
     """
     identifier = attributes.bytes(allowNone=False)
     title = attributes.text(allowNone=False)
@@ -26,8 +26,8 @@ class Exercise(item.Item):
 
 
     def wasSolvedBy(self, user):
-        """
-        Checks if this exercise has previously been solved by the user.
+        """Checks if this exercise has previously been solved by the user.
+
         """
         thisExercise = _Solution.what == self
         byThisUser = _Solution.who == user
@@ -37,8 +37,8 @@ class Exercise(item.Item):
 
 
 class _Solution(item.Item):
-    """
-    A log of an exercise being solved.
+    """A log of an exercise being solved.
+
     """
     who = attributes.reference(allowNone=False)
     what = attributes.reference(allowNone=False)
