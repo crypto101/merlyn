@@ -5,7 +5,11 @@ from twisted.trial.unittest import SynchronousTestCase
 
 
 theFactory = object()
-theNameOfTheFactory = "merlyn.test.test_multiplexing.theFactory"
+theNewFactory = object()
+
+prefix = "merlyn.test.test_multiplexing."
+theNameOfTheFactory = prefix + "theFactory"
+theNameOfTheNewFactory = prefix + "theNewFactory"
 
 
 class FactoryDictTests(SynchronousTestCase):
@@ -47,3 +51,19 @@ class FactoryDictTests(SynchronousTestCase):
         self.assertRaises(KeyError, lambda: self.factoryDict["otherIdentifier"])
         addThisToStore(self.store)
         self.assertIdentical(self.factoryDict["otherIdentifier"], theFactory)
+
+
+    def test_updateInStore(self):
+        """The addToStore function will update a peristed factory's name, if a
+        persisted factory with the passed identifier already exists.
+
+        """
+        addName = partial(addToStore, self.store, "identifier")
+        def checkFactory(expected):
+            self.assertIdentical(self.factoryDict["identifier"], expected)
+
+        addName(theNameOfTheFactory)
+        checkFactory(theFactory)
+
+        addName(theNameOfTheNewFactory)
+        checkFactory(theNewFactory)

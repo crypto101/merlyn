@@ -43,10 +43,10 @@ def addToStore(store, identifier, name):
     just have an ``addToStore`` function that remembers it in the
     store.
 
-    The only difference between this and ``_PeristedFactory`` itself is
-    that you have to pass a store to ``_PersistedFactory`` as the
-    ``store`` keyword argument, whereas you can pass it to this
-    function positionally.
+    If a persisted factory with the same identifier already exists,
+    the name will be updated.
 
     """
-    return _PersistedFactory(store=store, identifier=identifier, name=name)
+    persistedFactory = store.findOrCreate(_PersistedFactory, identifier=identifier)
+    persistedFactory.name = name
+    return persistedFactory
