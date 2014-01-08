@@ -10,7 +10,7 @@ class User(item.Item):
     """
     A user.
     """
-    email = attributes.bytes(allowNone=False) # TODO: index
+    email = attributes.bytes(allowNone=False, indexed=True)
     digest = attributes.bytes()
 
 

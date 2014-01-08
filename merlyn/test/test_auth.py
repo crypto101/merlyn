@@ -8,6 +8,15 @@ from zope.interface import implementer
 from zope.interface.verify import verifyObject
 
 
+class UserTests(SynchronousTestCase):
+    def test_emailIndexed(self):
+        """The email attribute of the User item is indexed.
+
+        """
+        self.assertTrue(auth.User.email.indexed)
+
+
+
 @implementer(ILogObserver)
 class FakeLogObserver(object):
     def __init__(self):
