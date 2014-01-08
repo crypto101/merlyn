@@ -12,7 +12,7 @@ class AMPTests(SynchronousTestCase):
     """
     def setUp(self):
         self.store = Store()
-        self.factory = service.AMPFactory(self.store)
+        self.factory = service.Factory(self.store)
 
 
     def test_keepReference(self):
@@ -63,7 +63,7 @@ class ServiceTests(SynchronousTestCase):
         ampListenEvent, = self.reactor.sslServers
         port, factory, ctxFactory, _backlog, interface = ampListenEvent
         self.assertEqual(port, 4430)
-        self.assertTrue(isinstance(factory, service.AMPFactory))
+        self.assertTrue(isinstance(factory, service.Factory))
         self.assertTrue(isinstance(ctxFactory, auth.ContextFactory))
         self.assertEqual(interface, "")
 
