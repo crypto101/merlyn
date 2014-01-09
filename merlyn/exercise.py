@@ -117,6 +117,6 @@ class SolvableResourceMixin(object):
 
         """
         remote = request.transport.remote
-        withThisIdentifier = Exercise.identifier == self.excerciseIdentifier
+        withThisIdentifier = Exercise.identifier == self.exerciseIdentifier
         exercise = self.store.findUnique(Exercise, withThisIdentifier)
         solveAndNotify(remote, exercise)
