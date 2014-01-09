@@ -96,3 +96,27 @@ class Locator(amp.CommandLocator):
             return self.store.findUnique(Exercise, cond)
         except ItemNotFound:
             raise ce.UnknownExercise()
+
+
+
+class SolvableResourceMixin(object):
+    """A mixin for resources that know when an exercise is solved.
+
+    The resource must be served over a multiplexed connection.
+    """
+    exerciseIdentifier = None
+
+    def __init__(self, store):
+        self.store = store
+
+
+    def solveAndNotify(self, request):
+        """Notifies the owner of the current request (so, the user doing the
+        exercise) that they've solved the exercise, and mark it as
+        solved in the database.
+
+        """
+        remote = request.transport.remote
+        withThisIdentifier = Exercise.identifier == self.excerciseIdentifier
+        exercise = self.store.findUnique(Exercise, withThisIdentifier)
+        solveAndNotify(remote, exercise)

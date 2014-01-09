@@ -79,6 +79,21 @@ class SolveAndNotifyTests(SynchronousTestCase):
         self.assertTrue(self.wasNotified())
 
 
+    def test_resourceMixin(self):
+        resource = SolvableResource(self.store)
+        request = FakeRequest()
+        request.transport = FakeTransport()
+        request.transport.remote = self.proto
+
+        self.assertFalse(self.wasSolved())
+        self.assertFalse(self.wasNotified())
+
+        resource.solveAndNotify(request)
+
+        self.assertTrue(self.wasSolved())
+        self.assertTrue(self.wasNotified())
+
+
 
 class FakeProto(object):
     def __init__(self, store, user):
@@ -91,6 +106,21 @@ class FakeProto(object):
     def callRemote(self, command, **kwargs):
         self.command = command
         self.kwargs = kwargs
+
+
+
+class FakeRequest(object):
+    pass
+
+
+
+class FakeTransport(object):
+    pass
+
+
+
+class SolvableResource(SolvableResourceMixin):
+    exerciseIdentifier = b"identifier"
 
 
 
