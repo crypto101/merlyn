@@ -8,6 +8,12 @@ class _PersistedFactory(item.Item):
     name = attributes.bytes()
 
     def dereference(self):
+        """Returns the object to which the name attribute points.
+
+        This will be a unary callable taking a store and producing a
+        factory.
+
+        """
         return namedAny(self.name)
 
 
@@ -30,7 +36,8 @@ class FactoryDict(object):
         except ItemNotFound:
             raise KeyError(key)
 
-        return persistedFactory.dereference()
+        factoryMaker = persistedFactory.dereference()
+        return factoryMaker(self.store)
 
 
 

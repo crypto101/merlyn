@@ -1,15 +1,29 @@
 from axiom.store import Store
 from functools import partial
-from merlyn.multiplexing import addToStore, FactoryDict, _PersistedFactory
+from merlyn.multiplexing import addToStore, FactoryDict
 from twisted.trial.unittest import SynchronousTestCase
 
 
-theFactory = object()
-theNewFactory = object()
+class Factory(object):
+    def __init__(self, store):
+        self.store = store
+
+
 
 prefix = "merlyn.test.test_multiplexing."
-theNameOfTheFactory = prefix + "theFactory"
-theNameOfTheNewFactory = prefix + "theNewFactory"
+name = prefix + "Factory"
+
+
+
+class OtherFactory(Factory):
+    """Another factory.
+
+    """
+
+
+
+otherName = prefix + "OtherFactory"
+
 
 
 class FactoryDictTests(SynchronousTestCase):
@@ -20,16 +34,25 @@ class FactoryDictTests(SynchronousTestCase):
     def setUp(self):
         self.store = Store()
         self.factoryDict = FactoryDict(self.store)
-        _PersistedFactory(store=self.store,
-                          identifier="identifier",
-                          name=theNameOfTheFactory)
+        addToStore(self.store, "test", name)
 
 
     def test_get(self):
-        """FactoryDicts supply factories by identifiers.
+        """FactoryDicts supply factories by identifiers. These factories are
+        instantiated with the store.
 
         """
-        self.assertIdentical(self.factoryDict["identifier"], theFactory)
+        self.checkFactory(self.factoryDict["test"])
+
+
+    def checkFactory(self, factory, cls=Factory):
+        """Checks the given factory. It must be an instance of the given class
+        (default: Factory), as well as have the test store as the
+        ``store`` attribute.
+
+        """
+        self.assertTrue(isinstance(factory, cls))
+        self.assertIdentical(factory.store, self.store)
 
 
     def test_getMissing(self):
@@ -40,30 +63,10 @@ class FactoryDictTests(SynchronousTestCase):
         self.assertRaises(KeyError, lambda: self.factoryDict["BOGUS"])
 
 
-    def test_addToStore(self):
-        """The addToStore function adds a persisted factory to a store.
-
-        """
-        addThisToStore = partial(addToStore,
-                                 identifier="otherIdentifier",
-                                 name=theNameOfTheFactory)
-
-        self.assertRaises(KeyError, lambda: self.factoryDict["otherIdentifier"])
-        addThisToStore(self.store)
-        self.assertIdentical(self.factoryDict["otherIdentifier"], theFactory)
-
-
     def test_updateInStore(self):
         """The addToStore function will update a peristed factory's name, if a
         persisted factory with the passed identifier already exists.
 
         """
-        addName = partial(addToStore, self.store, "identifier")
-        def checkFactory(expected):
-            self.assertIdentical(self.factoryDict["identifier"], expected)
-
-        addName(theNameOfTheFactory)
-        checkFactory(theFactory)
-
-        addName(theNameOfTheNewFactory)
-        checkFactory(theNewFactory)
+        addToStore(self.store, "test", otherName)
+        self.checkFactory(self.factoryDict["test"], cls=OtherFactory)
