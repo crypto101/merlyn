@@ -2,6 +2,7 @@ from axiom.store import Store
 from clarent.exercise import GetExercises, GetExerciseDetails
 from clarent.exercise import UnknownExercise, NotifySolved
 from merlyn.exercise import Exercise, Locator, solveAndNotify
+from merlyn.exercise import SolvableResourceMixin
 from merlyn.auth import User
 from twisted.trial.unittest import SynchronousTestCase
 from txampext.respondertests import ResponderTestMixin
@@ -42,21 +43,41 @@ class ExerciseTests(SynchronousTestCase):
 
 
 class SolveAndNotifyTests(SynchronousTestCase):
-    def test_solveAndNotify(self):
-        store = Store()
-        user = User(store=store, email="test@example.com")
-        proto = FakeProto(store, user)
-        exercise = makeExercise(store=store)
+    def setUp(self):
+        self.store = store = Store()
+        self.user = User(store=store, email="test@example.com")
+        self.proto = FakeProto(store, self.user)
+        self.exercise = makeExercise(store=store)
 
-        self.assertFalse(exercise.wasSolvedBy(user))
-        solveAndNotify(proto, exercise)
-        self.assertTrue(exercise.wasSolvedBy(user))
 
-        self.assertIdentical(proto.command, NotifySolved)
-        self.assertEqual(proto.kwargs, {
+    def wasSolved(self):
+        """The current exercise has been marked as sovled by the current user.
+
+        """
+        return self.exercise.wasSolvedBy(self.user)
+
+
+    def wasNotified(self):
+        if self.proto.command is not NotifySolved:
+            return False
+
+        expectedKwargs = {
             b"identifier": b"identifier",
             b"title": u"\N{SNOWMAN}"
-        })
+        }
+
+        return self.proto.kwargs == expectedKwargs
+
+
+    def test_solveAndNotify(self):
+        self.assertFalse(self.wasSolved())
+        self.assertFalse(self.wasNotified())
+
+        solveAndNotify(self.proto, self.exercise)
+
+        self.assertTrue(self.wasSolved())
+        self.assertTrue(self.wasNotified())
+
 
 
 class FakeProto(object):
