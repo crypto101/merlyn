@@ -4,5 +4,7 @@ env:
 - TOXENV=pypy
 install:
 - pip install tox
+- pip install twisted
+- pip install epsilon
 script:
 - tox
