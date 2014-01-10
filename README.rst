@@ -4,6 +4,8 @@
 
 A server backend for interactive online exercises.
 
+.. image:: https://travis-ci.org/crypto101/merlyn.png
+
 Testing and documentation
 =========================
 
