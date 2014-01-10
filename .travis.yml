@@ -2,10 +2,11 @@ language: python
 env:
   - TOXENV=py27
   - TOXENV=pypy
-install:
-  - pip install tox
+before_install:
   - pip install twisted
   - pip install epsilon
+install:
+  - pip install tox
   - pip install coveralls
 script:
   - tox
