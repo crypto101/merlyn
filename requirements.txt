@@ -1,2 +1,1 @@
-Axiom==0.6.0 # Not added in setup.py, because Axiom needs Epsilon for egg_info
 -e .
