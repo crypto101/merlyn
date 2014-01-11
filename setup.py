@@ -17,7 +17,7 @@ dependencies = [
     "pyasn1", # (for manhole)
 
     # Storage
-    "epsilon",
+    #"epsilon",
     "axiom==0.7.0",
     "maxims==0.0.2",
 ]
