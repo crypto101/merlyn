@@ -52,6 +52,22 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
+0.0.8
+-----
+
+Now being continuously tested on Travis, with coverage monitoring
+thanks to Coveralls.
+
+Several other minor improvements:
+
+- A useful mixin for resources that represent exercises, for helping
+  them resolve and notify when an exercise is completed.
+- User e-mails are indexed.
+- Persisted factories are now unary callables that take a store. This
+  prevents some otherwise icky global mutable state.
+- New behavior for adding persisted factories: addOrUpdate; don't just
+  blindly add more factories with the same identifier.
+
 0.0.7
 -----
 
