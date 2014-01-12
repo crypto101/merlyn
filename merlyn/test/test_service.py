@@ -87,7 +87,7 @@ class ServiceMakerTests(SynchronousTestCase):
         """The service maker uses the tapname ``merlyn``.
 
         """
-        self.assertIdentical(service.ServiceMaker.tapname, b"merlyn")
+        self.assertEqual(service.ServiceMaker.tapname, b"merlyn")
 
 
     def test_makeService(self):
