@@ -5,8 +5,9 @@
 A server backend for interactive online exercises.
 
 .. image:: https://travis-ci.org/crypto101/merlyn.png
-
-.. image:: https://coveralls.io/repos/crypto101/merlyn/badge.png
+   :target: https://travis-ci.org/crypto101/merlyn
+.. image:: https://coveralls.io/repos/crypto101/merlyn/badge.png?branch=master
+   :target: https://coveralls.io/r/crypto101/merlyn?branch=master
 
 Testing and documentation
 =========================
