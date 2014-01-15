@@ -7,8 +7,8 @@ from twisted.python import log
 
 
 class User(item.Item):
-    """
-    A user.
+    """A user.
+
     """
     email = attributes.bytes(allowNone=False, indexed=True)
     digest = attributes.bytes()
@@ -106,8 +106,14 @@ class ContextFactory(object):
 
 
 def emailForCert(cert):
+    """Extracts the e-mail address from the X509 data in the given cert.
+
+    """
     return cert.get_subject().emailAddress.encode("utf-8")
 
 
 def userForCert(store, cert):
+    """Gets the user for the given certificate.
+
+    """
     return store.findUnique(User, User.email == emailForCert(cert))
