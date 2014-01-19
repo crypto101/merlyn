@@ -1,6 +1,8 @@
+"""Exercises and helpers for exercise implementations.
+
 """
-Basic exercise and step implementations.
-"""
+import os
+
 from axiom import attributes, item, queryutil as q
 from axiom.errors import ItemNotFound
 from clarent import exercise as ce
@@ -120,3 +122,26 @@ class SolvableResourceMixin(object):
         withThisIdentifier = Exercise.identifier == self.exerciseIdentifier
         exercise = self.store.findUnique(Exercise, withThisIdentifier)
         solveAndNotify(remote, exercise)
+
+
+
+class Secret(item.Item):
+    """Some secret stored entropy for a user.
+
+    Used to randomize exercises specific to the user. This exists for
+    two reasons:
+
+    - Allowing randomizations for a particular user to be consistent
+    - Preventing users from requesting arbitrary amounts of random
+      data
+
+    """
+    user = attributes.reference(allowNone=False, indexed=True)
+    entropy = attributes.bytes(defaultFactory=lambda: os.urandom(256 // 8))
+
+    @classmethod
+    def forUser(cls, user):
+        """Finds or creates a Secret for this user.
+
+        """
+        return user.store.findOrCreate(cls, user=user)

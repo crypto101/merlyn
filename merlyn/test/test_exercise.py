@@ -1,8 +1,10 @@
+import os
+
 from axiom.store import Store
 from clarent.exercise import GetExercises, GetExerciseDetails
 from clarent.exercise import UnknownExercise, NotifySolved
 from merlyn.exercise import Exercise, Locator, solveAndNotify
-from merlyn.exercise import SolvableResourceMixin
+from merlyn.exercise import SolvableResourceMixin, Secret
 from merlyn.auth import User
 from twisted.trial.unittest import SynchronousTestCase
 from txampext.respondertests import ResponderTestMixin
@@ -215,3 +217,48 @@ class GetExercisesResponderTests(ResponderTestMixin, SynchronousTestCase):
 class GetExerciseDetailsResponderTests(ResponderTestMixin, SynchronousTestCase):
     command =  GetExerciseDetails
     locator = locator
+
+
+
+class SecretTests(SynchronousTestCase):
+    def setUp(self):
+        self.store = Store()
+        self.user = User(store=self.store, email="test@example.com")
+
+
+    def test_new(self):
+        """When the user has no secret yet, gets a new secret.
+
+        Asserts that the secret requests a sufficient number of bytes
+        from urandom.
+
+        """
+        self.patch(os, "urandom", self._urandom)
+        self.assertEqual(self.store.query(Secret).count(), 0)
+
+        secret = Secret.forUser(self.user)
+        self.assertEqual(secret.entropy, "sikrit")
+        self.assertEqual(secret.user, self.user)
+
+
+    def _urandom(self, nBytes):
+        """
+        Asserts that 256 bits worth of entropy is being requested.
+        """
+        self.assertEqual(nBytes, 256 // 8)
+        return "sikrit"
+
+
+    def test_same(self):
+        """When the user already has a secret, gets that secret.
+
+        """
+        secret = Secret(store=self.store, entropy="xyzzy", user=self.user)
+        self.assertIdentical(Secret.forUser(self.user), secret)
+
+
+    def test_indexed(self):
+        """The user attribute of secrets is indexed.
+
+        """
+        self.assertTrue(Secret.user.indexed)
