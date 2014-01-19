@@ -11,15 +11,15 @@ dependencies = [
 
     # Base requirements, Twisted, TLS, AMP etc
     "twisted>=13.2.0",
-    "pyOpenSSL==0.13.1",
-    "txampext==0.0.10",
+    "pyOpenSSL>=0.13.1",
+    "txampext>=0.0.10",
     "pycrypto", # (for manhole)
     "pyasn1", # (for manhole)
 
     # Storage
     "epsilon",
-    "axiom==0.7.0",
-    "maxims==0.0.2",
+    "axiom>=0.7.0",
+    "maxims>=0.0.2",
 ]
 
 import re
