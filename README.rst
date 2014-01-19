@@ -53,6 +53,14 @@ unless you've first made a wheel out of it.
 Release notes
 =============
 
+0.0.9
+-----
+
+Added per-user secrets. Once pyca/cryptography will have HKDF support,
+this will turn into per-user entropy.
+
+Also minor fixes, version upgrades.
+
 0.0.8
 -----
 
