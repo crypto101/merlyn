@@ -1,7 +1,10 @@
 language: python
-env:
-  - TOXENV=py27
-  - TOXENV=pypy
+matrix:
+  env:
+    - TOXENV=py27
+  allow_failures:
+    - TOXENV=pypy
+    - TOXENV=py27-trunkdeps
 install:
   - pip install tox
   - pip install coveralls
