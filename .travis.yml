@@ -1,6 +1,8 @@
 language: python
 env:
   - TOXENV=py27
+  - TOXENV=pypy
+  - TOXENV=py27-trunkdeps
 allow_failures:
   env:
     - TOXENV=pypy
