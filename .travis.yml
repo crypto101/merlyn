@@ -1,8 +1,8 @@
 language: python
-matrix:
+env:
+  - TOXENV=py27
+allow_failures:
   env:
-    - TOXENV=py27
-  allow_failures:
     - TOXENV=pypy
     - TOXENV=py27-trunkdeps
 install:
